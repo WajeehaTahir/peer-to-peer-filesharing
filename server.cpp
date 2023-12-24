@@ -25,11 +25,11 @@ struct client
 		serial = s;
 		fd = f;
 	}
-	bool operator ==(const client& obj)	//overloading operators for list operations
+	bool operator ==(const client& obj) const	//overloading operators for list operations
 	{
 		return obj.serial == serial;
 	}
-	bool operator !=(const client& obj)
+	bool operator !=(const client& obj) const
 	{
 		return obj.serial != serial;
 	}
@@ -178,7 +178,7 @@ int main() {
 	addr.sin_family	= AF_INET;
 	addr.sin_port		= htons(SERVER_PORT_NO);
 
-	if (bind(fd, (struct sockaddr*) &addr, sizeof(addr)) == -1) {
+	if (::bind(fd, (struct sockaddr*) &addr, sizeof(addr)) == -1) {
 		perror("Bind failed on socket\n");
 		return -1;	
 	}
