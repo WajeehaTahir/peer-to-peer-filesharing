@@ -101,7 +101,7 @@ int makeConnection(int connfd_server, string filename)
 	addr.sin_family	= AF_INET;
 	addr.sin_port		= htons(0);	//zero chooses a free port
 
-	if (bind(fd, (struct sockaddr*) &addr, sizeof(addr)) == -1) {
+	if (::bind(fd, (struct sockaddr*) &addr, sizeof(addr)) == -1) {
 		perror("Bind failed on socket\n");
 		return -1;	
 	}
