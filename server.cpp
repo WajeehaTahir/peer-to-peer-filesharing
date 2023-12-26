@@ -41,9 +41,9 @@ multimap <string, int> files;	//filenames as key, serial numbers as values
 void input(client obj)
 {
 	int connfd = obj.fd;
+	char buffer[100];
 	while(1)
 	{
-		char buffer[100];
 		bzero(buffer, 100);
 		recv(connfd, buffer, 100, 0);
 		
@@ -142,7 +142,7 @@ void input(client obj)
 					}
 				}
 				
-				send(connfd_seeder, ("seed\n" + filename).c_str(), strlen(("seed\n" + filename).c_str()), 0);	//notify seeder to create connection
+				send(connfd_seeder, ("seed\n" + filename).c_str(), ("seed\n" + filename).length(), 0);	//notify seeder to create connection
 				
 				bzero(buffer, 100);
 				recv(connfd_seeder, buffer, 100, 0);
@@ -153,7 +153,7 @@ void input(client obj)
 				}
 				
 				port = buffer;
-				send(connfd, ("seeder\n" + ip + "\t" + port).c_str(), strlen(("seeder\n" + ip + "\t" + port).c_str()), 0); //send port number and ip address of seeder to leecher
+				send(connfd, ("seeder\n" + ip + "\t" + port).c_str(), ("seeder\n" + ip + "\t" + port).length(), 0); //send port number and ip address of seeder to leecher
 			}
 			
 		}
@@ -200,6 +200,7 @@ int main() {
 		connfd = accept(fd, (struct sockaddr *) &cliaddr, &cliaddr_len);
 		if (connfd <=0 ) {
 			perror("accept failed on socket: ");
+			continue;
 		}
 		
 		count++;
@@ -217,7 +218,7 @@ int main() {
 			} 
 			else
 			{
-				send(c.fd, buffer.c_str(), strlen(buffer.c_str()), 0);	//notify existing clients
+				send(c.fd, buffer.c_str(), buffer.length(), 0);	//notify existing clients
 			}
 		}
 		
